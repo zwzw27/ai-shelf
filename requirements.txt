@@ -1,0 +1,6 @@
+anthropic
+openai
+google-genai
+requests
+python-dotenv
+pandas
