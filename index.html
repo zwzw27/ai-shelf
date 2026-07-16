@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Shelf · The Current</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#202124;--sub:#5f6368;--blue:#1a73e8;--blue-d:#1967d2;--chipbg:#e8f0fe;--chipbd:#d2e3fc;
+--hair:#e8eaed;--bd:#dadce0;--up:#188038;--dn:#d93025;--yt:#ea4335;--forum:#f9ab00;--vendor:#bdc1c6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fff;color:var(--ink);font-family:'Google Sans',Roboto,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:680px;margin:0 auto;padding:28px 20px 56px}
+.top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:14px;border-bottom:1px solid var(--hair)}
+h1{font-size:20px;font-weight:500;letter-spacing:0}
+.tag{font-size:12px;color:var(--sub)}
+.frow{display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+.flab{font-size:12px;color:var(--sub);width:58px;flex:0 0 auto}
+.chip{font-size:13px;font-weight:500;color:var(--ink);border:1px solid var(--bd);border-radius:8px;background:#fff;padding:6px 12px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .12s}
+.chip:hover{background:#f8f9fa}
+.chip.on{background:var(--chipbg);border-color:var(--chipbd);color:var(--blue-d)}
+.chip.on::before{content:"✓";font-size:12px}
+.stat{display:flex;align-items:baseline;gap:14px;margin-top:26px;flex-wrap:wrap}
+.stat .n{font-size:52px;font-weight:400;letter-spacing:-1px}
+.stat .d{font-size:14px;font-weight:500}
+.stat .d.up{color:var(--up)}.stat .d.dn{color:var(--dn)}
+.stat .l{font-size:13px;color:var(--sub);max-width:34ch;line-height:1.4}
+.bar{display:flex;height:10px;border-radius:5px;overflow:hidden;margin-top:16px;background:#f1f3f4}
+.bar i{height:100%}
+.legend{display:flex;gap:16px;margin-top:8px;flex-wrap:wrap;font-size:12px;color:var(--sub)}
+.lg{display:flex;align-items:center;gap:5px}
+.lg i{width:8px;height:8px;border-radius:2px}
+.insight{margin-top:14px;font-size:13px;color:var(--sub);line-height:1.5}
+.insight b{color:var(--ink);font-weight:500}
+.sec{margin-top:26px;padding-top:16px;border-top:1px solid var(--hair)}
+.sec-t{font-size:12px;font-weight:500;color:var(--sub);text-transform:none;margin-bottom:4px}
+table{width:100%;border-collapse:collapse}
+tr.irow{cursor:pointer}
+tr.irow:hover td{background:#f8f9fa}
+tr.irow.sel td{background:var(--chipbg)}
+td{padding:9px 8px;border-bottom:1px solid var(--hair);font-size:13.5px;vertical-align:middle}
+td .q{display:block;font-size:12px;color:var(--sub);margin-top:1px}
+td.split-td{width:170px}
+.split{display:flex;height:8px;border-radius:4px;overflow:hidden;background:#f1f3f4}
+.split i{background:var(--blue);height:100%}
+td.pc{width:52px;text-align:right;font-weight:500}
+td.mv{width:44px;text-align:right;font-size:12.5px;font-weight:500}
+.mv.up{color:var(--up)}.mv.dn{color:var(--dn)}
+.prow{display:flex;justify-content:space-between;gap:12px;align-items:baseline;padding:8px 8px;border-bottom:1px solid var(--hair);font-size:13.5px}
+.prow:last-child{border-bottom:none}
+.pn{font-weight:500}
+.pn span{font-weight:400;color:var(--sub);font-size:12.5px}
+.pc2{color:var(--blue-d);font-weight:500;font-size:12.5px;white-space:nowrap}
+.foot{margin-top:26px;font-size:12px;color:var(--sub)}
+@media(max-width:520px){td.split-td{display:none}}
+
+.strip{background:#f8f9fa;border-bottom:1px solid var(--hair);font-size:12px;color:var(--sub);padding:8px 20px;text-align:center}
+.strip b{color:var(--ink)}
+.about{margin-top:34px;border-top:1px solid var(--hair);padding-top:16px}
+.about h2{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sub);margin-bottom:6px}
+.about p{font-size:13px;line-height:1.65;max-width:64ch}
+.dl{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.dlb{font-size:12px;font-weight:500;border:1px solid var(--bd);border-radius:8px;padding:7px 12px;color:var(--blue-d);text-decoration:none}
+.dlb:hover{background:var(--chipbg)}
+.method{margin-top:22px;border-top:1px solid var(--hair);padding-top:12px;font-size:11.5px;color:var(--sub);line-height:1.7}
+</style>
+</head>
+<body>
+<div class="strip"><b>Preview build.</b> All numbers are placeholders — live data replaces them when the study runs.</div>
+<div class="wrap">
+
+  <div class="top"><h1>The AI Shelf</h1><span class="tag">Where AI answers come from · The Current Benchmark</span></div>
+
+  <div class="frow"><span class="flab">Market</span><span id="geoChips"></span></div>
+  <div class="frow"><span class="flab">Industry</span><span id="indChips"></span></div>
+
+  <div class="stat">
+    <span class="n" id="statN">64%</span>
+    <span class="d up" id="statD">▲ 2 pts</span>
+    <span class="l" id="statL"></span>
+  </div>
+  <div class="bar" id="bar"></div>
+  <div class="legend" id="legend"></div>
+  <p class="insight" id="insight"></p>
+
+  <div class="sec" id="tableSec">
+    <div class="sec-t" id="tableT"></div>
+    <table><tbody id="tbody"></tbody></table>
+  </div>
+
+  <div class="sec">
+    <div class="sec-t" id="pubT"></div>
+    <div id="pubs"></div>
+  </div>
+
+  <div class="foot">AI assistants don't replace the open internet — they resell it. · The Current, refreshed monthly</div>
+
+  <div class="about">
+    <h2>About this benchmark</h2>
+    <p>AI assistants have become a shopping interface: people ask them what to buy, and the answer arrives with the research already done. This benchmark measures whose work that answer is built on. We ask ChatGPT, Gemini and Claude 150 real consumer buying questions across three markets, trace every source they cite, and classify each one: open-web editorial, forums, video, vendor or retailer pages.</p>
+    <div class="dl">
+      <a class="dlb" href="basket.csv">The 150 queries</a>
+      <a class="dlb" href="raw.json">Raw dataset</a>
+      <a class="dlb" href="labels.json">Source classifications</a>
+    </div>
+  </div>
+  <div class="method">
+    Method: official APIs only · 3 runs per query inside one dated week · domains classified by model, spot-checked by hand (agreement rate published) · full pipeline open in this repository. A benchmark of what AI answers are made of — not a ranking of the assistants themselves.
+  </div>
+
+</div>
+<script>
+const DATA = {
+ us:{label:'United States',
+  insight:'<b>Comparison reviews win the shelf.</b> Head-to-head reviews are cited 4× more than listicles on the same products.',
+  all:{share:64,delta:2,split:[64,15,9,12]},
+  inds:{
+   tv:{n:'TVs & home AV',q:'"best 65-inch TV under $1,000"',share:78,delta:3},
+   shoes:{n:'Running shoes',q:'"best shoes for marathon training"',share:71,delta:1},
+   cards:{n:'Credit cards',q:'"best travel card with no annual fee"',share:66,delta:2},
+   streaming:{n:'Streaming',q:'"is Netflix or Disney+ better for kids"',share:58,delta:-2},
+   skincare:{n:'Skincare',q:'"best retinol for beginners"',share:41,delta:-5}},
+  pubs:[
+   {n:'RTINGS',d:'comparison reviews',c:212,t:['tv']},
+   {n:'Wirecutter',d:'buying guides',c:168,t:['tv','shoes','skincare']},
+   {n:"Tom's Guide",d:'tech rankings',c:124,t:['tv','streaming']},
+   {n:"Runner's World",d:'category authority',c:96,t:['shoes']},
+   {n:'NerdWallet',d:'comparison tables',c:89,t:['cards']},
+   {n:'CNET',d:'reviews',c:58,t:['tv','streaming']},
+   {n:'The Points Guy',d:'cards & travel',c:54,t:['cards']},
+   {n:'Byrdie',d:'beauty editorial',c:51,t:['skincare']}]},
+ uk:{label:'United Kingdom',
+  insight:'<b>Which? anchors trust.</b> Subscription review publishers hold shelf space vendor content can\u2019t buy.',
+  all:{share:61,delta:1,split:[61,17,10,12]},
+  inds:{
+   tv:{n:'TVs & home AV',q:'"best 65-inch TV under \u00a3800"',share:74,delta:2},
+   shoes:{n:'Running shoes',q:'"best marathon shoes 2026"',share:69,delta:2},
+   cards:{n:'Credit cards',q:'"best credit card for air miles"',share:63,delta:1},
+   streaming:{n:'Streaming',q:'"is Netflix or NOW better for kids"',share:55,delta:-1},
+   skincare:{n:'Skincare',q:'"best retinol for beginners UK"',share:39,delta:-4}},
+  pubs:[
+   {n:'Which?',d:'independent testing',c:187,t:['tv','cards']},
+   {n:'TechRadar',d:'tech reviews',c:142,t:['tv','streaming']},
+   {n:'MoneySavingExpert',d:'finance guides',c:118,t:['cards']},
+   {n:"Runner's World UK",d:'category authority',c:84,t:['shoes']},
+   {n:'T3',d:'product rankings',c:66,t:['tv']},
+   {n:'Good Housekeeping',d:'tested beauty',c:52,t:['skincare']},
+   {n:'Radio Times',d:'streaming guides',c:49,t:['streaming']}]},
+ de:{label:'Germany',
+  insight:'<b>Test culture pays.</b> Germany\u2019s institutional reviewers (Stiftung Warentest, CHIP) push open-web share to the highest of the three markets.',
+  all:{share:68,delta:3,split:[68,12,8,12]},
+  inds:{
+   tv:{n:'TVs & home AV',q:'"bester 65-Zoll-Fernseher unter 1.000\u00a0\u20ac"',share:81,delta:2},
+   shoes:{n:'Running shoes',q:'"beste Laufschuhe f\u00fcr Marathon"',share:72,delta:1},
+   cards:{n:'Credit cards',q:'"beste Kreditkarte ohne Jahresgeb\u00fchr"',share:60,delta:2},
+   streaming:{n:'Streaming',q:'"Netflix oder Disney+ f\u00fcr Kinder"',share:62,delta:1},
+   skincare:{n:'Skincare',q:'"bestes Retinol f\u00fcr Anf\u00e4nger"',share:46,delta:-2}},
+  pubs:[
+   {n:'Stiftung Warentest',d:'institutional testing',c:201,t:['tv','cards','skincare']},
+   {n:'CHIP',d:'tech testing',c:156,t:['tv','streaming']},
+   {n:'ComputerBild',d:'product tests',c:112,t:['tv']},
+   {n:'Finanztip',d:'finance guides',c:98,t:['cards']},
+   {n:"Runner's World DE",d:'category authority',c:72,t:['shoes']},
+   {n:'\u00d6KO-TEST',d:'ingredient testing',c:64,t:['skincare']},
+   {n:'idealo Magazin',d:'price & product',c:41,t:['tv']}]}
+};
+const INDS=[['all','All industries'],['tv','TVs'],['shoes','Running shoes'],['cards','Credit cards'],['streaming','Streaming'],['skincare','Skincare']];
+const SEG=[['Open internet','var(--blue)'],['Reddit & forums','var(--forum)'],['YouTube','var(--yt)'],['Vendor pages','var(--vendor)']];
+let geo='us', ind='all';
+
+function el(id){return document.getElementById(id)}
+function chips(){
+  el('geoChips').innerHTML=Object.keys(DATA).map(g=>'<button class="chip'+(g===geo?' on':'')+'" data-g="'+g+'" style="display:inline-flex;margin-right:6px">'+DATA[g].label+'</button>').join('');
+  el('indChips').innerHTML=INDS.map(i=>'<button class="chip'+(i[0]===ind?' on':'')+'" data-i="'+i[0]+'" style="display:inline-flex;margin:2px 6px 2px 0">'+i[1]+'</button>').join('');
+}
+function render(){
+  chips();
+  const D=DATA[geo];
+  const isAll=ind==='all';
+  const cur=isAll?D.all:D.inds[ind];
+  el('statN').textContent=cur.share+'%';
+  const up=cur.delta>=0;
+  el('statD').textContent=(up?'\u25b2 ':'\u25bc ')+Math.abs(cur.delta)+' pts';
+  el('statD').className='d '+(up?'up':'dn');
+  el('statL').textContent='open-internet share of citations \u00b7 '+D.label+' \u00b7 '+(isAll?'all industries':D.inds[ind].n+' \u00b7 e.g. '+D.inds[ind].q);
+  if(isAll){
+    el('bar').innerHTML=D.all.split.map((s,i)=>'<i style="width:'+s+'%;background:'+SEG[i][1]+'"></i>').join('');
+    el('legend').innerHTML=D.all.split.map((s,i)=>'<span class="lg"><i style="background:'+SEG[i][1]+'"></i>'+SEG[i][0]+' '+s+'%</span>').join('');
+  }else{
+    el('bar').innerHTML='<i style="width:'+cur.share+'%;background:var(--blue)"></i>';
+    el('legend').innerHTML='<span class="lg"><i style="background:var(--blue)"></i>Open internet '+cur.share+'%</span><span class="lg"><i style="background:#f1f3f4;border:1px solid var(--hair)"></i>Walled & closed '+(100-cur.share)+'%</span>';
+  }
+  el('insight').innerHTML=D.insight;
+  el('tableT').textContent='By industry \u00b7 '+D.label+' \u00b7 click a row to filter';
+  el('tbody').innerHTML=Object.keys(D.inds).map(k=>{
+    const r=D.inds[k];const u=r.delta>=0;
+    return '<tr class="irow'+(k===ind?' sel':'')+'" data-i="'+k+'"><td>'+r.n+'<span class="q">'+r.q+'</span></td>'
+      +'<td class="split-td"><div class="split"><i style="width:'+r.share+'%"></i></div></td>'
+      +'<td class="pc">'+r.share+'%</td><td class="mv '+(u?'up':'dn')+'">'+(u?'\u25b2':'\u25bc')+Math.abs(r.delta)+'</td></tr>';
+  }).join('');
+  const pubs=(isAll?D.pubs:D.pubs.filter(p=>p.t.includes(ind))).slice(0,5);
+  el('pubT').textContent='Most-cited publishers \u00b7 '+D.label+(isAll?'':' \u00b7 '+D.inds[ind].n);
+  el('pubs').innerHTML=pubs.map((p,i)=>'<div class="prow"><span class="pn">'+(i+1)+'. '+p.n+' <span>\u00b7 '+p.d+'</span></span><span class="pc2">'+p.c+' citations</span></div>').join('');
+}
+document.addEventListener('click',e=>{
+  const g=e.target.closest('[data-g]');if(g){geo=g.dataset.g;render();return}
+  const i=e.target.closest('[data-i]');if(i){ind=i.dataset.i;render()}
+});
+render();
+</script>
+</body>
+</html>
