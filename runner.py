@@ -16,21 +16,12 @@ import os, csv, json, time, datetime, requests
 PILOT = os.environ.get("PILOT", "true").lower() == "true"
 
 # ---- check keys before doing anything ----
-NEEDED = ["PPLX_KEY", "OPENAI_API_KEY", "GEMINI_API_KEY", "ANTHROPIC_API_KEY"]
+NEEDED = ["OPENAI_API_KEY", "GEMINI_API_KEY", "ANTHROPIC_API_KEY"]
 missing = [k for k in NEEDED if not os.environ.get(k)]
 if missing:
     raise SystemExit(f"Missing keys in .env: {missing}. Open .env and paste them in.")
 
-# ---- the four assistants ----
-
-def ask_perplexity(q):
-    r = requests.post("https://api.perplexity.ai/chat/completions",
-        headers={"Authorization": f"Bearer {os.environ['PPLX_KEY']}"},
-        json={"model": "sonar", "messages": [{"role": "user", "content": q}]},
-        timeout=90)
-    d = r.json()
-    return (d["choices"][0]["message"]["content"],
-            [s["url"] for s in d.get("search_results", [])])
+# ---- the assistants ----
 
 from openai import OpenAI
 oa = OpenAI()
@@ -76,7 +67,7 @@ def ask_claude(q):
              for c in (getattr(b, "citations", None) or [])}
     return text, sorted(cites)
 
-ASSISTANTS = {"perplexity": ask_perplexity, "openai": ask_openai,
+ASSISTANTS = {"openai": ask_openai,
               "gemini": ask_gemini, "claude": ask_claude}
 
 # ---- the loop ----
