@@ -1,0 +1,55 @@
+name: Run AI Shelf study
+
+on:
+  workflow_dispatch:
+    inputs:
+      pilot:
+        description: "Run in pilot mode (5 queries, 1 run)"
+        type: boolean
+        default: true
+
+concurrency:
+  group: study
+  cancel-in-progress: false
+
+jobs:
+  study:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run study
+        env:
+          PPLX_KEY: ${{ secrets.PPLX_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PILOT: ${{ inputs.pilot }}
+        run: python runner.py
+
+      - name: Commit study data
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add raw.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "study data [skip ci]"
+            git push
+          fi

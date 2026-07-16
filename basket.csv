@@ -1,0 +1,16 @@
+query,industry,market
+"best 65-inch TV under $1,000",tv,us
+"best 65-inch TV under £800",tv,uk
+"bester 65-Zoll-Fernseher unter 1.000 €",tv,de
+"best shoes for marathon training",shoes,us
+"best marathon running shoes 2026",shoes,uk
+"beste Laufschuhe für Marathon",shoes,de
+"best travel credit card with no annual fee",cards,us
+"best credit card for air miles",cards,uk
+"beste Kreditkarte ohne Jahresgebühr",cards,de
+"is Netflix or Disney+ better for kids",streaming,us
+"is Netflix or NOW better for kids",streaming,uk
+"Netflix oder Disney+ für Kinder",streaming,de
+"best retinol for beginners",skincare,us
+"best retinol for beginners UK",skincare,uk
+"bestes Retinol für Anfänger",skincare,de
